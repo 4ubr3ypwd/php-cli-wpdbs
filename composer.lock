@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7919ee5957ec19ffbb7b7838d9c0985a",
+    "content-hash": "f102249d67e7552b21d5e184540358ee",
     "packages": [
         {
             "name": "aubreypwd/php-cli",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aubreypwd/php-cli.git",
-                "reference": "3a7b6e1726cf28a1f5b2f21f1aef5a22af09f24f"
+                "reference": "4543c62a953cbd92ae78895d23611468e602b2b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aubreypwd/php-cli/zipball/3a7b6e1726cf28a1f5b2f21f1aef5a22af09f24f",
-                "reference": "3a7b6e1726cf28a1f5b2f21f1aef5a22af09f24f",
+                "url": "https://api.github.com/repos/aubreypwd/php-cli/zipball/4543c62a953cbd92ae78895d23611468e602b2b2",
+                "reference": "4543c62a953cbd92ae78895d23611468e602b2b2",
                 "shasum": ""
             },
             "require": {
@@ -45,9 +45,9 @@
             "description": "A wrapper for splitbrain/php-cli.",
             "support": {
                 "issues": "https://github.com/aubreypwd/php-cli/issues",
-                "source": "https://github.com/aubreypwd/php-cli/tree/1.0.0"
+                "source": "https://github.com/aubreypwd/php-cli/tree/1.0.1"
             },
-            "time": "2023-01-16T02:27:27+00:00"
+            "time": "2023-01-16T17:31:41+00:00"
         },
         {
             "name": "splitbrain/php-cli",

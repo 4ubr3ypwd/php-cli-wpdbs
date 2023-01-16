@@ -1,0 +1,147 @@
+#!/usr/bin/env php
+<?php
+
+namespace aubreypwd\PHP_CLI\WP_Dbs;
+
+use \splitbrain\phpcli\Options;
+
+require_once __DIR__ . '/../autoload.php';
+
+final class Command extends \aubreypwd\PHP_CLI\Command {
+
+	private $path;
+
+	protected function setup( Options $options ) : void {
+
+		$this->set_desc( $options, 'Swap WordPress databases using files by blogname.' );
+
+		$this->explain_option( $options, 'version', 'Print version.', 'v' );
+		$this->explain_option( $options, 'path', 'Path to the WordPress files.', '', 'path' );
+
+		$this->explain_argument( $options, 'blogname', 'The name of the site to swap to.', false );
+	}
+
+	protected function main( Options $options ) : void {
+
+		$this->path = $this->get_opt_or_default_to( $options, 'path', $this->get_working_dir() );
+
+		if ( ! $this->check_requirements( $options ) ) {
+
+			$this->show_help( $options );
+
+			return;
+		}
+
+		if ( in_array( true, [
+			$this->version( $options ),
+			$this->switch_db( $options, $this->get_arg( $options, 0 ) ),
+		], true ) ) {
+			return;
+		}
+
+		$this->show_help( $options );
+	}
+
+	private function switch_db( Options $options, $blogname ) : bool {
+
+		if ( ! is_string( $blogname ) ) {
+
+			$this->error( '<blogname> is not a string.' );
+
+			return false;
+		}
+
+		if ( empty( $blogname ) ) {
+
+			$this->error( '<blogname> is empty.' );
+
+			return false;
+		}
+
+		$this->success( "We will switch to '{$blogname}' here." );
+
+		return true;
+	}
+
+	private function get_opt_or_default_to( Options $options, string $option, $default ) : string|bool {
+
+		$opt = $this->get_opt( $options, $option );
+
+		if ( false === $opt ) {
+			return $default;
+		}
+
+		return $opt;
+	}
+
+	private function check_requirements( Options $options ) : bool {
+
+		if ( ! $this->has_command( 'wp' ) ) {
+
+			$this->error( 'To use this you must have wp-cli (https://wp-cli.org/) installed.' );
+
+			return false;
+		}
+
+		if ( ! $this->check_db() ) {
+
+			$this->error( 'It appears we cannot connect to the database (make sure you run this in a WordPress install or use --path).' );
+
+			return false;
+		}
+
+		if ( empty( $this->get_arg( $options, 0 ) ) ) {
+
+			$this->error( "<blogname> can't be empty." );
+
+			return false;
+		}
+
+		return true;
+	}
+
+	private function check_db() {
+
+		if ( ! $this->has_command( 'wp' ) ) {
+			return false;
+		}
+
+		$output = $this->exec_get_output( $this->exec( "wp db check --path='{$this->path}'" ), 'string' );
+
+		if ( ! is_string( $output ) ) {
+			return false;
+		}
+
+		return strstr( $output, 'Success: Database checked' );
+	}
+
+	/**
+	 * Version
+	 *
+	 * @since  [-NEXT-]
+	 *
+	 * @param  Options  $options Options.
+	 * @return bool
+	 */
+	private function version( Options $options ) : bool {
+
+		if ( ! $this->get_opt( $options, 'version' ) ) {
+			return false;
+		}
+
+		$this->info( '1.0.0' );
+
+		return true;
+	}
+}
+
+$cli = new \aubreypwd\PHP_CLI\WP_Dbs\Command();
+
+try {
+
+	$cli->run();
+
+} catch ( \Exception $e ) {
+
+	$cli->log( 'error', "{$e->getMessage()}\n" );
+}

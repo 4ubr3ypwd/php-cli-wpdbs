@@ -1,6 +1,6 @@
 {
-    "name": "aubreypwd/php-cli-template",
-    "description": "A template for building aubreypwd/php-cli.",
+    "name": "aubreypwd/wpdbs",
+    "description": "Swap WordPress databases using files.",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -17,7 +17,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "aubreypwd\\PHP_CLI\\Template\\": "src/"
+            "aubreypwd\\PHP_CLI\\WP_Dbs\\": "src/"
         },
         "files": [
             "autoload.php"
