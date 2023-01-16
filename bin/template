@@ -1,0 +1,99 @@
+#!/usr/bin/env php
+<?php
+
+namespace aubreypwd\PHP_CLI\Template;
+
+use \splitbrain\phpcli\Options;
+
+require_once __DIR__ . '/../autoload.php';
+
+final class Command extends \aubreypwd\PHP_CLI\Command {
+
+	/**
+	 * Setup
+	 *
+	 * @since  [-NEXT-]
+	 *
+	 * @param  Options  $options Options.
+	 * @return void
+	 */
+	protected function setup( Options $options ) : void {
+
+		$this->set_desc( $options, 'My great description.' );
+
+		$this->explain_option( $options, 'version', 'Print version.', 'v' );
+
+		$this->explain_argument( $options, 'test', 'Runs test.', false );
+	}
+
+	/**
+	 * Main
+	 *
+	 * @since  [-NEXT-]
+	 *
+	 * @param  Options  $options Options.
+	 * @return void
+	 */
+	protected function main( Options $options ) : void {
+
+		if ( in_array( true, [
+			$this->version( $options ),
+			$this->test( $options ),
+		], true ) ) {
+			return;
+		}
+
+		$this->show_help( $options );
+	}
+
+	/**
+	 * Test
+	 *
+	 * You could rename this to be your actual command.
+	 *
+	 * @since  [-NEXT-]
+	 *
+	 * @param  Options  $options Options.
+	 * @return bool
+	 */
+	private function test( Options $options ) : bool {
+
+		if ( 'test' !== $this->get_arg( $options, 0 ) ) {
+			return false;
+		}
+
+		$this->success( '' );
+
+		return true;
+	}
+
+	/**
+	 * Version
+	 *
+	 * @since  [-NEXT-]
+	 *
+	 * @param  Options  $options Options.
+	 * @return bool
+	 */
+	private function version( Options $options ) : bool {
+
+		if ( ! $this->get_opt( $options, 'version' ) ) {
+			return false;
+		}
+
+		$this->info( '1.0.0' );
+
+		return true;
+	}
+}
+
+$cli = new \aubreypwd\PHP_CLI\Template\Command();
+
+try {
+
+	$cli->run();
+
+} catch ( \Exception $e ) {
+
+	$cli->log( 'error', "{$e->getMessage()}\n" );
+}

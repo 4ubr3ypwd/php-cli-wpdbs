@@ -1,0 +1,26 @@
+{
+    "name": "aubreypwd/php-cli-template",
+    "description": "A template for building aubreypwd/php-cli.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aubrey Portwood",
+            "email": "code@aubreypwd.com"
+        }
+    ],
+    "require": {
+        "aubreypwd/php-cli": "~1.0"
+    },
+    "bin": [
+        "bin/template"
+    ],
+    "autoload": {
+        "psr-4": {
+            "aubreypwd\\PHP_CLI\\Template\\": "src/"
+        },
+        "files": [
+            "autoload.php"
+        ]
+    }
+}
